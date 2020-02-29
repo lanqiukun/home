@@ -11,8 +11,14 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
-    return 0;
+    return 20;
+});
+
+Route::post('/post', function (Request $request) {
+    echo json_encode($request->all());
 });
 
 

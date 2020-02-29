@@ -23,12 +23,12 @@
             @include('admin.common.validate')
             @include('admin.common.msg')
 
-            <form class="form form-horizontal" action={{ route('admin.login') }} method="post">
+            <form class="form form-horizontal" action='{{ route('admin.login') }}' method="post">
                 @csrf
                 <div class="row cl">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                     <div class="formControls col-xs-8">
-                        <input id="account" name="username" type="text" placeholder="账号" class="input-text size-L" autofocus autocomplete="off">
+                        <input id="account" name="username" value="{{ old('username') }}" type="text" placeholder="账号" class="input-text size-L" autofocus autocomplete="off">
                     </div>
                 </div>
                 <div class="row cl">

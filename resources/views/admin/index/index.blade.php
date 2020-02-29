@@ -34,11 +34,11 @@
                 </nav>
                 <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                     <ul class="cl">
-                        <li>超级管理员</li>
+                        <li>{{ auth()->user()->truename }}</li>
                         <li class="dropDown dropDown_hover">
-                            <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <a href="#" class="dropDown_A">{{ auth()->user()->username }} <i class="Hui-iconfont">&#xe6d5;</i></a>
                             <ul class="dropDown-menu menu radius box-shadow">
-                                <li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
+                                <li><a href="{{ route('admin.user.profile') }}">个人信息</a></li>
                                 <li><a href="#">切换账户</a></li>
                                 <li><a href="{{ route('admin.logout') }}">退出</a></li>
                             </ul>
@@ -62,10 +62,12 @@
     <aside class="Hui-aside">
         <div class="menu_dropdown bk_2">
             <dl id="menu-article">
-                <dt><i class="Hui-iconfont">&#xe616;</i> 资讯管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+                <dt><i class="Hui-iconfont">&#xe616;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
                 <dd>
                     <ul>
-                        <li><a data-href="article-list.html" data-title="资讯管理" href="javascript:void(0)">资讯管理</a></li>
+                        <li><a data-href="{{ route('admin.user.index') }}" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
+                        <li><a data-href="{{ route('admin.user.create') }}" data-title="新增管理员" href="javascript:void(0)">新增管理员</a></li>
+                        <li><a data-href="{{ route('admin.user.trashed') }}" data-title="恢复管理员" href="javascript:void(0)">恢复管理员</a></li>
                     </ul>
                 </dd>
             </dl>
@@ -183,67 +185,7 @@
 
     <!--请在下方写此页面业务相关的脚本-->
     <script type="text/javascript" src="lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            /*$("#min_title_list li").contextMenu('Huiadminmenu', {
-            	bindings: {
-            		'closethis': function(t) {
-            			console.log(t);
-            			if(t.find("i")){
-            				t.find("i").trigger("click");
-            			}		
-            		},
-            		'closeall': function(t) {
-            			alert('Trigger was '+t.id+'\nAction was Email');
-            		},
-            	}
-            });*/
-        });
-        /*个人信息*/
-        function myselfinfo() {
-            layer.open({
-                type: 1,
-                area: ['300px', '200px'],
-                fix: false, //不固定
-                maxmin: true,
-                shade: 0.4,
-                title: '查看信息',
-                content: '<div>管理员信息</div>'
-            });
-        }
 
-        /*资讯-添加*/
-        function article_add(title, url) {
-            var index = layer.open({
-                type: 2,
-                title: title,
-                content: url
-            });
-            layer.full(index);
-        }
-        /*图片-添加*/
-        function picture_add(title, url) {
-            var index = layer.open({
-                type: 2,
-                title: title,
-                content: url
-            });
-            layer.full(index);
-        }
-        /*产品-添加*/
-        function product_add(title, url) {
-            var index = layer.open({
-                type: 2,
-                title: title,
-                content: url
-            });
-            layer.full(index);
-        }
-        /*用户-添加*/
-        function member_add(title, url, w, h) {
-            layer_show(title, url, w, h);
-        }
-    </script>
 
 
 </body>
