@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as AuthUser;
-
+use App\Models\Role;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends AuthUser
@@ -21,4 +21,8 @@ class User extends AuthUser
     protected $hidden = [
         'password'
     ];
+
+    public function role() {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 }

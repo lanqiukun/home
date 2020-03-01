@@ -66,8 +66,8 @@
                 <dd>
                     <ul>
                         <li><a data-href="{{ route('admin.user.index') }}" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
-                        <li><a data-href="{{ route('admin.user.create') }}" data-title="新增管理员" href="javascript:void(0)">新增管理员</a></li>
-                        <li><a data-href="{{ route('admin.user.trashed') }}" data-title="恢复管理员" href="javascript:void(0)">恢复管理员</a></li>
+                        <li><a data-href="{{ route('admin.role.index') }}" data-title="角色管理" href="javascript:void(0)">角色管理</a></li>
+                        <li><a data-href="{{ route('admin.node.index') }}" data-title="节点管理" href="javascript:void(0)">节点管理</a></li>
                     </ul>
                 </dd>
             </dl>

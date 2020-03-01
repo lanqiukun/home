@@ -11,6 +11,7 @@ $factory->define(User::class, function (Faker $faker) {
         //
         'username' => $faker->userName,
         'truename' => $faker->name(),
+        'role_id' => rand(2, 5),
         'password' => bcrypt('admin'),
         'email' => $faker->email,
         'phone' => $faker->phoneNumber,

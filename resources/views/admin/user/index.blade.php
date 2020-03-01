@@ -23,8 +23,8 @@
 
 <body>
 
-    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户中心
-        <span class="c-gray en">&gt;</span> 用户管理
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理
+        <span class="c-gray en">&gt;</span> 管理员列表
         <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新">
             <i class="Hui-iconfont">&#xe68f;</i></a></nav>
     <div id="app" class="page-container">
@@ -40,7 +40,9 @@
                 <a v-on:click.prevent="delete_all" class="btn btn-danger radius">
                     <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
                 </a>
-                <a href="{{ route('admin.user.create') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
+                <a href="{{ route('admin.user.create') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a>
+                <a href="{{ route('admin.user.trashed') }}" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe600;</i> 恢复管理员</a>
+
             </span>
             <span class="r">共有数据：<strong  v-cloak>@{{ total }}</strong> 条</span> </div>
         <div class="mt-20">
@@ -50,9 +52,10 @@
                         <th width="50">
                             <div class="label label-secondary radius" style="cursor: pointer" v-on:click="toggle">全选</div>
                         </th>
-                        <th width="80">ID</th>
-                        <th width="100">用户名</th>
+                        <th width="30">ID</th>
+                        <th width="70">用户名</th>
                         <th width="100">账号</th>
+                        <th width="70">角色</th>
                         <th width="40">性别</th>
                         <th width="90">手机</th>
                         <th width="150">邮箱</th>
@@ -73,6 +76,7 @@
                         <td>{{ $user->id}}</td>
                         <td>{{ $user->truename }}</td>
                         <td>{{ $user->username }}</td>
+                        <td>{{ $user->role->name }}</td>
                         <td>{{ $user->sex }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>{{ $user->email }} </td>
@@ -87,20 +91,18 @@
                         <td class="td-manage">
 
                             @if ( auth() -> user() -> id != $user-> id)
-                            <a class="label label-warning radius">
-                                停用
-                            </a>
 
-                            <a class="label label-primary radius">
-                                编辑
+
+                            <a class="label label-primary radius" href="{{ route('admin.user.role', $user) }}" >
+                                修改角色
                             </a>
 
                             <a class="label label-danger radius" href="{{ route('admin.user.delete', ['target' => $user->id]) }}" v-on:click.prevent="delete_target">
                                 删除
                             </a>
                             @else
-                            <a class="label label-default radius">
-                                不能对当前账号操作
+                            <a class="label label-warning radius" href="{{ route('admin.user.profile') }}" >
+                                编辑
                             </a>
                             @endif
 

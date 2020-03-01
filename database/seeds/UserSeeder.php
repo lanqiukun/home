@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
         //
         User::truncate();
         factory(User::class, 100) -> create();
-        User::where('id', 1)->update(['username' => 'admin']);
+        User::where('id', 1)->update(['username' => 'admin', 'role_id' => '1']);
     }
 }
  

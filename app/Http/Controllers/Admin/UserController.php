@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Mail;
 
-class UserController extends \App\Http\Controllers\Admin\BaseController
+class UserController extends BaseController
 {
     //
     public function __construct()
@@ -71,7 +73,7 @@ class UserController extends \App\Http\Controllers\Admin\BaseController
         $to   = $request->get('email');
         $receiver = $request->get('username');
 
-        \Mail::send($email_template, ["username" => $request->username], function(\Illuminate\Mail\Message $message) use($from, $sender, $to, $receiver) {
+        Mail::send($email_template, ["username" => $request->username], function(\Illuminate\Mail\Message $message) use($from, $sender, $to, $receiver) {
             
             $message->from($from, $sender);
 
@@ -82,7 +84,7 @@ class UserController extends \App\Http\Controllers\Admin\BaseController
             $message->attach('nginx-doc.pdf', ['as' => 'nginx_documentation.pdf', 'mime' => 'application/pdf']);
         });
 
-        return redirect(route('admin.user.create'))->with('success', '新增成功！');
+        return redirect(route('admin.user.create'))->with('success', '新增管理员成功！');
     }
 
     public function delete(int $target)
@@ -213,15 +215,38 @@ class UserController extends \App\Http\Controllers\Admin\BaseController
         
         if (Hash::check($request->get('current_password'), $current_password_hash))
         {
-            User::find(auth()->user()->id)->update(['password' =>  bcrypt($request->get('password'))]);
+            User::find(auth()->id())->update(['password' =>  bcrypt($request->get('password'))]);
             return redirect(route('admin.user.change_password')) -> with('success', '密码修改成功');
         }
         else
             return redirect(route('admin.user.change_password')) -> withErrors('当前密码不正确');
 
 
+    }
+
+    public function role(Request $request, User $user) {
+        if ($request -> isMethod('GET'))
+        {   
+            $all_role = Role::all();
 
 
+            return view('admin.user.role', compact('all_role', 'user'));
+
+
+        }
+        else
+        {
+            $this->validate($request, [
+                'role_id' => 'required|min: 1'
+            ], [
+                'role_id.required' => '未选择角色',
+                'role_id.min' => '所选角色非法'
+            ]);
+
+            $user->update($request->only('role_id'));
+
+            return redirect(route('admin.user.role', $user))->with(['success' => '角色修改成功！']);
+        }
     }
 
 }

@@ -12,23 +12,38 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('index', 'IndexController@index')->name('admin.index');
     Route::get('welcome', 'IndexController@welcome')->name('admin.welcome');
 
-
-    Route::get('user/index', 'UserController@index')->name('admin.user.index'); 
-    Route::get('user/create', 'UserController@create')->name('admin.user.create');
-    Route::post('user/store', 'UserController@store')->name('admin.user.store');
-
-    Route::delete('user/delete/{target}', 'UserController@delete') -> name('admin.user.delete');
-    Route::get('user/trashed', 'UserController@trashed') -> name('admin.user.trashed');
-    Route::post('user/restore/{target}', 'UserController@restore') -> name('admin.user.restore');
-
-    Route::delete('user/delete_all', 'UserController@delete_all') -> name('admin.user.delete_all');
-    Route::delete('user/restore_all', 'UserController@restore_all') -> name('admin.user.restore_all');
-
-    Route::get('user/profile', 'UserController@profile') -> name('admin.user.profile');
-    Route::patch('user/update', 'UserController@update') -> name('admin.user.update');
-
-    Route::get('user/change_password', 'UserController@change_password') -> name('admin.user.change_password');
-    Route::patch('user/store_password', 'UserController@store_password') -> name('admin.user.store_password');
-
+    Route::group(['prefix' => 'user', 'as' => 'admin.user.'], function() {
+        Route::get('index', 'UserController@index')->name('index'); 
+        Route::get('create', 'UserController@create')->name('create');
+        Route::post('store', 'UserController@store')->name('store');
     
+        Route::delete('delete/{target}', 'UserController@delete') -> name('delete');
+        Route::get('trashed', 'UserController@trashed') -> name('trashed');
+        Route::post('restore/{target}', 'UserController@restore') -> name('restore');
+    
+        Route::delete('delete_all', 'UserController@delete_all') -> name('delete_all');
+        Route::delete('restore_all', 'UserController@restore_all') -> name('restore_all');
+    
+        Route::get('profile', 'UserController@profile') -> name('profile');
+        Route::patch('update', 'UserController@update') -> name('update');
+    
+        Route::get('change_password', 'UserController@change_password') -> name('change_password');
+        Route::patch('store_password', 'UserController@store_password') -> name('store_password');
+    
+
+        Route::match(['get', 'patch'], 'role/{user}', 'UserController@role')->name('role');
+    
+    });
+
+
+    //角色管理
+    //资源路由
+    Route::resource('role', 'RoleController', ['as' => 'admin']);
+    Route::get('role/node/{role}', 'RoleController@node')->name('admin.role.node');
+    Route::patch('role/node/{role}', 'RoleController@change_node')->name('admin.role.change_node');
+
+
+    //节点管理
+    Route::resource('node', 'NodeController', ['as' => 'admin']);
+
 });
