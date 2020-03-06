@@ -28,13 +28,13 @@
                 <div class="row cl">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                     <div class="formControls col-xs-8">
-                        <input id="account" name="username" value="{{ old('username') }}" type="text" placeholder="账号" class="input-text size-L" autofocus autocomplete="off">
+                        <input id="account" name="username" value="{{ old('username') }}" type="text" autocomplete="" placeholder="账号" class="input-text size-L" autofocus autocomplete="off">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                     <div class="formControls col-xs-8">
-                        <input id="password" name="password" type="password" placeholder="密码" class="input-text size-L">
+                        <input id="password" name="password" type="text" autocomplete="" placeholder="密码" class="input-text size-L">
                     </div>
                 </div>
                 <div class="row cl">

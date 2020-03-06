@@ -16,8 +16,12 @@ class CheckAdminLogin
     public function handle($request, Closure $next)
     {
 
+
         if (!auth()->check())
+        {
+            session(['attempt_to' => $request->route()->getName()]);
             return redirect(route('admin.login'))->withErrors('请登录');
+        }
 
 
         return $next($request);

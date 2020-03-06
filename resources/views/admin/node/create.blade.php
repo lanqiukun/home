@@ -30,16 +30,16 @@
         @include('admin.common.validate')
         @include('admin.common.msg')
 
-        <form action="{{ route('admin.node.store') }}" method="post" class="form form-horizontal" id="form-member-add">
+        <form action="{{ route('admin.node.create') }}" method="post" class="form form-horizontal" id="form-member-add">
             @csrf
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>层级：</label>
-                <div class="formControls col-xs-8 col-sm-9"> 
+                <div class="formControls col-xs-8 col-sm-6"> 
                     <span class="select-box">
                         <select name="pid" class="select">
                             <option value="0">顶级</option>
                             @foreach ($data as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <option value="{{ $item['id'] }}">{!! $item['html'] !!}{{ $item['name'] }}</option>
                             @endforeach
                         </select>
                     </span> 
@@ -48,14 +48,14 @@
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>节点名称: </label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" class="input-text" autocomplete="off" value="{{ old('name') }}" placeholder="" id="name" name="name">
                 </div>
             </div>
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">路由别名: </label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" class="input-text" autocomplete="off" value="{{ old('route') }}" placeholder="" id="route" name="route">
                 </div>
             </div>
@@ -63,7 +63,7 @@
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否为菜单: </label>
-                <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="formControls col-xs-8 col-sm-6 skin-minimal">
                     <div class="radio-box">
                         <input  name="is_menu" type="radio" value="1" id="is_menu-1">
                         <label for="is_menu-1">是</label>
@@ -78,7 +78,7 @@
 
 
             <div class="row cl">
-                <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <div class="col-xs-8 col-sm-6 col-xs-offset-4 col-sm-offset-3">
                     <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
                 </div>
             </div>

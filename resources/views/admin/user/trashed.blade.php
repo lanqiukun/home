@@ -35,7 +35,7 @@
         </div>
         <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a v-on:click.prevent="restore_all" class="btn btn-danger radius">
         <i class="Hui-iconfont">&#xe6e2;</i> 批量恢复</a> 
-        <a href="{{ route('admin.user.create') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
+        <a href="{{ route('admin.user.index') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 用户列表</a>
     </span> <span class="r">共有数据：<strong v-cloak>@{{ total }}</strong> 条</span> </div>
         <div class="mt-20">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -157,7 +157,7 @@
                         }
 
                     }).catch(function(err) {
-                        console.log(err)
+                        alert("操作失败，请重试");
                     })
                 },
 

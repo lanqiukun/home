@@ -37,11 +37,11 @@
     管理员个人信息 <span class="c-gray en">&gt;</span> 
     修改密码 
 
-    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="{{ route('admin.index') }}" title="返回首页">
-        返回首页
+    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="{{ route('admin.user.update') }}" title="返回个人信息">
+    返回个人信息
     </a>
     
-    <a class="btn btn-warning radius r" style="line-height:1.6em;margin-top:3px; margin-right: 10px;" href="{{ route('admin.user.profile') }}" title="返回上一页">
+    <a class="btn btn-warning radius r" style="line-height:1.6em;margin-top:3px; margin-right: 10px;" href="{{ route('admin.user.update') }}" title="返回上一页">
         返回上一页
     </a>
 
@@ -53,9 +53,8 @@
         @include('admin.common.validate')
         @include('admin.common.msg')
 
-        <form action="{{ route('admin.user.store_password') }}" method="post" class="form form-horizontal" id="form-member-add">
+        <form action="{{ route('admin.user.change_password') }}" method="post" class="form form-horizontal" id="form-member-add">
             @csrf
-            @method('PATCH')
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>当前密码：</label>
                 <div class="formControls col-xs-8 col-sm-9">

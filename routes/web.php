@@ -13,9 +13,11 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return 'welcome to laravel';
+Route::get('/', function() {
+    return 20;
 });
 
 
-include base_path('routes/admin/admin.php');
+
+//后台路由
+include base_path('routes/admin.php');

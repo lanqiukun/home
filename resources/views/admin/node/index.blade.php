@@ -23,15 +23,17 @@
 
 <body>
 
-    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 管理员管理
+    <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 
+        <span class="c-gray en">&gt;</span> 管理员管理
         <span class="c-gray en">&gt;</span> 节点管理
         <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新">
-            <i class="Hui-iconfont">&#xe68f;</i></a></nav>
+            <i class="Hui-iconfont">&#xe68f;</i>
+        </a>
+    </nav>
+
+
     <div id="app" class="page-container">
-        <form method="get" action="{{ route('admin.node.index') }}" class="text-c"> 输入节点
-            <input type="text" name="nodename" value="" id="node" class="input-text " autocomplete="off" style="width:120px;">
-            <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索节点</button>
-        </form>
+
         <div class="cl pd-5 bg-1 bk-gray mt-20">
             <span class="l">
                 <a href="{{ route('admin.node.create') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加节点</a>
@@ -42,7 +44,7 @@
                 <thead>
                     <tr class="text-c">
 
-                        <th width="80">ID</th>
+                        <th width="80">#</th>
                         <th width="130">节点名称</th>
                         <th width="110">路由别名</th>
                         <th width="120">是否菜单</th>
@@ -51,11 +53,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($node as $item)
+                    @foreach($node as $key => $item)
+          
                     <tr class="text-c">
-                        <td>{{ $item['id']}}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td class="text-l">
-                            {{ $item['html']}}
+                            {!! $item['html'] !!}
                             {{ $item['name'] }}
                         </td>
                         <td>{{ $item['route'] }}</td>
@@ -69,11 +72,11 @@
                         </td>
                         <td>{{ $item['created_at']}}</td>
                         <td class="td-manage">
-                            <a class="label label-primary radius" href="{{ route('admin.node.edit', ['node' => $item['id']]) }}">
+                            <a class="label label-primary radius" href="{{ route('admin.node.update', ['node' => $item['id']]) }}">
                                 编辑
                             </a>
 
-                            <!-- <a class="label label-danger radius" href="{{ route('admin.node.destroy', ['node' => $item['id']]) }}"  v-on:click.prevent="delete_target">
+                            <!-- <a class="label label-danger radius" href="{{ route('admin.node.delete', ['node' => $item['id']]) }}"  v-on:click.prevent="delete_target">
                                 删除
                             </a> -->
                         </td>

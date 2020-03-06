@@ -29,7 +29,7 @@
             <i class="Hui-iconfont">&#xe68f;</i></a></nav>
     <div id="app" class="page-container">
         <form method="get" action="{{ route('admin.role.index') }}" class="text-c"> 输入角色
-            <input type="text" name="rolename" value="{{ $rolename }}" id="role" class="input-text " style="width:120px;">
+            <input type="text" name="rolename" value="{{ $rolename }}" id="role" class="input-text" autofocus autocomplete="off" style="width:120px;">
             <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索角色</button>
         </form>
         <div class="cl pd-5 bg-1 bk-gray mt-20">
@@ -51,9 +51,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($role_data as $role)
+                    @foreach($role_data as $key => $role)
                     <tr class="text-c" v-if="!removed_items.includes({{$role->id}})">
-                        <td>{{ $role->id}}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td>{{ $role->name }}</td>
                         <td>
                             <a class="label label-secondary radius" href="{{ route('admin.role.node', ['role' => $role->id]) }}">
@@ -65,11 +65,11 @@
                         <td>{{ $role->updated_at }}</td>
 
                         <td class="td-manage">
-                            <a class="label label-success  radius" href="{{ route('admin.role.edit', ['role' => $role->id]) }}">
+                            <a class="label label-success  radius" href="{{ route('admin.role.update', ['role' => $role->id]) }}">
                                 编辑
                             </a>
 
-                            <!-- <a class="label label-danger radius" href="{{ route('admin.role.destroy', ['role' => $role->id]) }}"  v-on:click.prevent="delete_target">
+                            <!-- <a class="label label-danger radius" href="{{ route('admin.role.delete', ['role' => $role->id]) }}"  v-on:click.prevent="delete_target">
                                 删除
                             </a> -->
                         </td>

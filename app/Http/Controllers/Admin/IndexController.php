@@ -4,20 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Node;
 
 class IndexController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware(['checkadminlogin']);
-    }
-
     //
-    public function index() {
-        
+    public function index(Request $request) {
 
-        return view('admin.index.index');
+        $data = (new Node()) -> treeData(array_keys(session('user_node')));
+
+
+        return view('admin.index.index', compact('data'));
     }
 
     public function welcome() {

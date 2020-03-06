@@ -30,15 +30,14 @@
         @include('admin.common.validate')
         @include('admin.common.msg')
 
-        <form action="{{ route('admin.role.change_node', $role) }}" method="post" class="form form-horizontal" id="form-member-add">
-            @method('PATCH')
+        <form action="{{ route('admin.role.node', $role) }}" method="post" class="form form-horizontal" id="form-member-add">
             @csrf
             
             @foreach ($all_node as $item)
                 <div>
                     <input name='nodes[]' type="checkbox" id="node{{ $item['id'] }}" value="{{$item['id']}}"  style="cursor: pointer" @if(in_array($item['id'], $has_node)) checked @endif>
                     <label for="node{{ $item['id'] }}"  style="cursor: pointer">
-                        {{$item['html']}}{{$item['name']}}
+                        {!! $item['html'] !!}{{$item['name']}}
                     </label>
                 </div>
 

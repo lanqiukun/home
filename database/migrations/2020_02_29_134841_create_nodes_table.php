@@ -19,7 +19,7 @@ class CreateNodesTable extends Migration
 
             $table->string('route', 100);
             $table->unsignedInteger('pid')->default(0)->comment('上级ID');
-            $table->enum('is_menu', ['0', '1'])->default('0');
+            $table->tinyInteger('is_menu')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

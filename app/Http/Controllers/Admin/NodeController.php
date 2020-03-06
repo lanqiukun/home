@@ -8,16 +8,13 @@ use Illuminate\Http\Request;
 
 class NodeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         //
 
         $node = (new Node) -> getAllList();
+
 
 
         $nodename = $request->get('nodename', '');
@@ -28,9 +25,6 @@ class NodeController extends Controller
         $total = count($node_data);
 
         return view('admin.node.index', ['total' => $total], compact('node'));
-
-
-
     }
 
     /**
@@ -38,93 +32,76 @@ class NodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request -> isMethod('get')) {
+            $data = (new Node) -> getAllCreatableList();
+            return view('admin.node.create', compact('data'));
+        }
 
-        $data = Node::where('pid', 0) -> get();
+        if ($request -> isMethod('post')) 
+        {
 
-        return view('admin.node.create', compact('data'));
-    }
+            $this->validate($request, [
+                'pid' => 'required|numeric',
+                'name' => 'required|unique:nodes,name',
+                'route' => 'unique:nodes,route',
+                'is_menu' => 'required|in: "0", "1"'
+            ], [
+                'pid.required' => '请选择层级',
+                'pid.numeric' => '层级值不合法',
+                'name.required' => '请输入节点名称',
+                'name.unique' => '已有相同的节点名称',
+                'route.unique' => '已有相同的路由别名',
+                'is_menu.required' => '请选择是否为菜单',
+                'is_menu.in' => '是否为菜单值不合法',
+            ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-        print_r($request->all());
+            Node::create($request->except('_token'));
 
-        $this->validate($request, [
-            'pid' => 'required|numeric',
-            'name' => 'required|unique:nodes,name',
-            'route' => 'unique:nodes,route',
-            'is_menu' => 'required|in: "0", "1"'
-        ], [
-            'pid.required' => '请选择层级',
-            'pid.numeric' => '层级值不合法',
-            'name.required' => '请输入节点名称',
-            'name.unique' => '已有相同的节点名称',
-            'route.unique' => '已有相同的路由别名',
-            'is_menu.required' => '请选择是否为菜单',
-            'is_menu.in' => '是否为菜单值不合法',
-        ]);
-
-
-        Node::create($request->except('_token'));
-        $data = Node::where('pid', 0) -> get();
-
-        return redirect(route('admin.node.create', compact('data')))->with(['success' => '节点添加成功']);
-
-
+            return redirect(route('admin.node.create'))->with(['success' => '节点添加成功']);    
+        }
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Node  $node
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Node $node)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Node  $node
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Node $node)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Node  $node
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Node $node)
     {
-        //
+        if ($request -> isMethod('get'))
+        {
+            $data = (new Node()) ->getAllCreatableList();
+            
+            return view('admin.node.update', compact('node', 'data'));
+        }
+
+
+        if ($request -> isMethod('post'))
+        {
+            $this->validate($request, [
+                'pid' => 'required|numeric',
+                'name' => 'required|unique:nodes,name,' .$node->id . ',id',
+                'route' => 'unique:nodes,route,' .$node->id . ',id',
+                'is_menu' => 'required|in: "0", "1"'
+            ], [
+                'pid.required' => '请选择层级',
+                'pid.numeric' => '层级值不合法',
+                'name.required' => '请输入节点名称',
+                'name.unique' => '已有相同的节点名称',
+                'route.unique' => '已有相同的路由别名',
+                'is_menu.required' => '请选择是否为菜单',
+                'is_menu.in' => '是否为菜单值不合法',
+            ]);
+
+            Node::find($node->id) -> update($request->except(['_token', '_method']));
+            
+            return redirect(route('admin.node.update', compact('node'))) -> with(['success' => '节点更新成功']);
+        }
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Node  $node
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Node $node)
+    public function delete(Request $request)
     {
-        //
+
     }
+
 }

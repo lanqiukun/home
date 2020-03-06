@@ -13,9 +13,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         //
-        User::truncate();
+        // User::truncate();
         factory(User::class, 100) -> create();
         User::where('id', 1)->update(['username' => 'admin', 'role_id' => '1']);
+        User::where('id', 100)->update(['username' => 'root', 'role_id' => '1']);
     }
 }
  

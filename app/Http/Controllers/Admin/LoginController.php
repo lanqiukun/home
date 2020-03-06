@@ -32,6 +32,12 @@ class LoginController extends Controller
         $logged =  auth() -> attempt($post_data);
 
         if ($logged) {
+
+
+            if (session()->has('attempt_to'))
+                return redirect(route(session('attempt_to')));
+ 
+
             return redirect(route('admin.index'));
         } else {
             return redirect(route('admin.login'))->withErrors(['账号或密码不正确']);
@@ -41,6 +47,7 @@ class LoginController extends Controller
 
     public function logout() {
 
+        session()->forget('attempt_to');
         
         auth() -> logout();
         

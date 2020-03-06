@@ -25,7 +25,7 @@
 <![endif]-->
     <!--/meta 作为公共模版分离出去-->
 
-    <title>新增管理员</title>
+    <title>新增用户</title>
     <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
     <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
@@ -34,8 +34,8 @@
 <nav class="breadcrumb">
     <i class="Hui-iconfont">&#xe67f;</i> 
     首页 <span class="c-gray en">&gt;</span> 
-    管理员管理 <span class="c-gray en">&gt;</span> 
-    新增管理员 
+    用户管理 <span class="c-gray en">&gt;</span> 
+    新增用户 
     <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新">
     <i class="Hui-iconfont">&#xe68f;</i>
 </a>
@@ -44,40 +44,40 @@
         @include('admin.common.validate')
         @include('admin.common.msg')
 
-        <form action="{{ route('admin.user.store') }}" method="post" class="form form-horizontal" id="form-member-add">
+        <form action="{{ route('admin.user.create') }}" method="post" class="form form-horizontal" id="form-member-add">
             @csrf
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>账号</label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" class="input-text" autocomplete="off" value="{{ old('username') }}" placeholder="" id="username" name="username">
                 </div>
             </div>
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>真实姓名：</label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" class="input-text" autocomplete="off"  value="{{ old('truename') }}" placeholder="" id="truename" name="truename">
                 </div>
             </div>
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>密码：</label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="password" class="input-text" autocomplete="off"  value="{{ old('password') }}" placeholder="" id="password" name="password">
                 </div>
             </div>
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="password" class="input-text" autocomplete="off"  value="{{ old('password_confirmation') }}" placeholder="" id="password_confirmation" name="password_confirmation">
                 </div>
             </div>
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
-                <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="formControls col-xs-8 col-sm-6 skin-minimal">
                     <div class="radio-box">
                         <input name="sex" type="radio" value="先生" id="sex-1" checked>
                         <label for="sex-1">先生</label>
@@ -91,19 +91,31 @@
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="text" class="input-text" autocomplete="off"  value="{{ old('phone') }}" placeholder="" id="phone" name="phone">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
-                <div class="formControls col-xs-8 col-sm-9">
+                <div class="formControls col-xs-8 col-sm-6">
                     <input type="email" class="input-text" autocomplete="off"  placeholder="@" value="{{ old('email') }}" name="email" id="email">
                 </div>
             </div>
 
             <div class="row cl">
-                <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色：</label>
+                <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                    @foreach ($all_role as $item)
+                        <div class="radio-box">
+                            <input name="role_id" type="radio" value="{{$item->id}}" id="role{{$item->id}}" checked>
+                            <label for="role{{$item->id}}">{{ $item->name }}</label>
+                        </div> 
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="row cl">
+                <div class="col-xs-8 col-sm-6 col-xs-offset-4 col-sm-offset-3">
                     <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
                 </div>
             </div>

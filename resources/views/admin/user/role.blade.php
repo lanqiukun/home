@@ -46,7 +46,6 @@
 
         <form method="post" action="{{ route('admin.user.role', $user) }}" class="form form-horizontal" id="form-member-add">
             @csrf
-            @method('PATCH')
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>角色：</label>
