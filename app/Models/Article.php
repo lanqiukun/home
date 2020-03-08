@@ -27,8 +27,8 @@ class Article extends Base
     {
         $update = in_array('admin.article.update', session('user_node'));
         $delete = in_array('admin.article.delete', session('user_node'));
-        $update_btn = '<a class="label label-success radius" onclick="f(event)" data-id="' . $this->id . '">编辑</a>';
-        $delete_btn = '<a class="label label-danger radius" onclick="f(event)" data-id="' . $this->id . '">删除</a>';
+        $update_btn = '<a class="label label-success radius" href="http://home.com/admin/article/update/' . $this->id  . '">编辑</a>';
+        $delete_btn = '<a class="label label-danger  radius">删除</a>';
 
         if ($update && $delete)
             return $update_btn . '&nbsp;' . $delete_btn;

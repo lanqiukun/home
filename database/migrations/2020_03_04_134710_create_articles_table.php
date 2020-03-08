@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->bigIncrements('id');
 
             $table->string('title', 100);
-            $table->tinyInteger('status') -> comment('0 => 已保存, 1 => 已发布, 2 => 已删除');
+            $table->tinyInteger('status') ->default(0) -> comment('0 => 已保存, 1 => 已发布, 2 => 已删除');
             $table->string('desc', 400);
             $table->string('cover', 150);
             $table->text('content'); 

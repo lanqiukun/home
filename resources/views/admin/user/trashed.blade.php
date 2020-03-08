@@ -4,20 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui/css/H-ui.min.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/H-ui.admin.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/pagination.css" />
-    <script src="/axios.min.js"></script>
-    <script src="/vue.js"></script>
-
-    <style>
-        [v-cloak]{
-            display: none;
-        }
-    </style>
+    @include('admin._css')
 
     <title>用户列表</title>
 </head>
@@ -34,9 +21,9 @@
             <button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
         </div>
         <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a v-on:click.prevent="restore_all" class="btn btn-danger radius">
-        <i class="Hui-iconfont">&#xe6e2;</i> 批量恢复</a> 
-        <a href="{{ route('admin.user.index') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 用户列表</a>
-    </span> <span class="r">共有数据：<strong v-cloak>@{{ total }}</strong> 条</span> </div>
+                    <i class="Hui-iconfont">&#xe6e2;</i> 批量恢复</a>
+                <a href="{{ route('admin.user.index') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 用户列表</a>
+            </span> <span class="r">共有数据：<strong v-cloak>@{{ total }}</strong> 条</span> </div>
         <div class="mt-20">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
                 <thead>
@@ -73,22 +60,20 @@
                         <td>{{ $user->created_at }}</td>
                         <td class="td-status">
                             @if ($user -> deleted_at)
-                                <span class="label label-danger radius">已删除</span>
+                            <span class="label label-danger radius">已删除</span>
                             @else
-                                <span class="label label-success radius">已启用</span>
+                            <span class="label label-success radius">已启用</span>
                             @endif
                         </td>
                         <td class="td-manage">
 
 
-                        <a  class="label label-primary radius" 
-                            href="{{ route('admin.user.restore', ['target' => $user->id]) }}" 
-                            v-on:click.prevent="restore_target">
-                            恢复
-                        </a>
+                            <a class="label label-primary radius" href="{{ route('admin.user.restore', ['target' => $user->id]) }}" v-on:click.prevent="restore_target">
+                                恢复
+                            </a>
 
-                                
-                    </td>
+
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -99,101 +84,94 @@
             {{ $user_data -> links() }}
         </div>
     </div>
-    <!--_footer 作为公共模版分离出去-->
-    <script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="/admin/static/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="/admin/static/h-ui.admin/js/H-ui.admin.js"></script>
-    <!--/_footer 作为公共模版分离出去-->
-
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-    <script type="text/javascript" src="/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="/admin/lib/laypage/1.2/laypage.js"></script>
-
-
-
-    <script>
-        
-        var app = new Vue({
-            "el": "#app",
-            data: {
-                total: {{ $total }},
-                removed_items: [],
-                checked_items: []
-            },
-            methods: {
-                toggle: function(e) {
-                    let items = document.querySelectorAll("input[name='targets[]']")
-                    console.log(items)
-                    if (this.checked_items.length < items.length) {
-
-                        for (let i of items)
-                            if (!i.checked) 
-                                i.click();
-
-                    } else {
-
-                        for (let i of items)
-                            i.click();
-                    }
-
-                },
-                restore_target: function (e) {
-                    let url = e.target.href;
-                    // let url = "http://home.com/post"
-
-                    axios.post(url, {
-                        
-                    }).then((res) => {
-                        let code = res.data.code;
-                        let target = res.data.target;
-                        if (code == 0) {
-                            this.removed_items.push(target)
-                            this.total -= 1
-
-                        } else {
-                            alert(res.data.msg)
-                        }
-
-                    }).catch(function(err) {
-                        alert("操作失败，请重试");
-                    })
-                },
-
-                restore_all: function (e) {
-                    console.log("restore_all")
-
-                    if (this.checked_items.length) {
-
-                        let url = "{{ route('admin.user.restore_all') }}"
-
-                        axios.delete(url, {
-                            params: {
-                                targets: this.checked_items
-                            }
-                        }).then((res) => {
-                            
-                            for (var i of this.checked_items)
-                                this.removed_items.push(parseInt(i))
-
-                            this.total -= this.checked_items.length
-
-                            this.checked_items = []
-
-                        }).catch((err) => {
-                            console.log(err)
-                        })
-
-                    } 
-
-
-                }
-            }
-
-        })
-    </script>
 
 </body>
+
+
+@include('admin._js')
+
+
+
+<script>
+    var app = new Vue({
+        "el": "#app",
+        data: {
+            total: '{{ $total }}',
+            removed_items: [],
+            checked_items: []
+        },
+        methods: {
+            toggle: function(e) {
+                let items = document.querySelectorAll("input[name='targets[]']")
+                console.log(items)
+                if (this.checked_items.length < items.length) {
+
+                    for (let i of items)
+                        if (!i.checked)
+                            i.click();
+
+                } else {
+
+                    for (let i of items)
+                        i.click();
+                }
+
+            },
+            restore_target: function(e) {
+                let url = e.target.href;
+                // let url = "http://home.com/post"
+
+                axios.post(url, {
+
+                }).then((res) => {
+                    let code = res.data.code;
+                    let target = res.data.target;
+                    if (code == 0) {
+                        this.removed_items.push(target)
+                        this.total -= 1
+
+                    } else {
+                        alert(res.data.msg)
+                    }
+
+                }).catch(function(err) {
+                    alert("操作失败，请重试");
+                })
+            },
+
+            restore_all: function(e) {
+                console.log("restore_all")
+
+                if (this.checked_items.length) {
+
+                    let url = "{{ route('admin.user.restore_all') }}"
+
+                    axios.delete(url, {
+                        params: {
+                            targets: this.checked_items
+                        }
+                    }).then((res) => {
+
+                        for (var i of this.checked_items)
+                            this.removed_items.push(parseInt(i))
+
+                        this.total -= this.checked_items.length
+
+                        this.checked_items = []
+
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+
+                }
+
+
+            }
+        }
+
+    })
+</script>
+
+
 
 </html>

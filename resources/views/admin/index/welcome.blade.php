@@ -4,11 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui/css/H-ui.min.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/H-ui.admin.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css" />
+    @include('admin._css')
 
     <title>我的桌面</title>
 </head>
@@ -184,9 +180,8 @@
                 本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
         </div>
     </footer>
-    <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 
 </body>
+    @include('admin._js')
 
 </html>

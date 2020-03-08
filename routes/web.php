@@ -14,7 +14,25 @@
 use Illuminate\Http\Request;
 
 Route::get('/', function() {
-    return 20;
+    return view('test');
+});
+
+Route::get('/b', function() {
+    if (request() -> header('X-Requested-With') =="XMLHttpRequest")
+        return 'is ajax';
+    else
+        return 'is not ajax';
+});
+
+Route::get('/collect', 'CollectorController@index') ->name('collect');
+
+Route::match(['get', 'post'], '/test', function(Request $request) {
+    return 123;
+    dd($request -> all());
+
+    $res = ['status' => '0', 'msg' => 'success'];
+
+    return json_encode($res);
 });
 
 

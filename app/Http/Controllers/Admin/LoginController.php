@@ -35,7 +35,11 @@ class LoginController extends Controller
 
 
             if (session()->has('attempt_to'))
-                return redirect(route(session('attempt_to')));
+            {
+                $continue = session('attempt_to');
+                session()->forget('attempt_to');
+                return redirect(route($continue));
+            }
  
 
             return redirect(route('admin.index'));
@@ -45,13 +49,15 @@ class LoginController extends Controller
 
     }
 
-    public function logout() {
+    public function logout(Request $request) {
 
-        session()->forget('attempt_to');
+        // return $request->all();
+
+
         
         auth() -> logout();
         
-        return redirect(route('admin.login')) -> with('success', '退出成功！');
+        return session() -> flash('success', '退出成功！');
     }
 
 

@@ -50,12 +50,12 @@ return [
 
         'article_cover' => [
             'driver' => 'local',
-            'root' => public_path('/upload/article_cover'),
+            'root' => public_path('/upload/article/cover'),
         ],
 
         'article_img' => [
             'driver' => 'local',
-            'root' => public_path('/upload/article_img'),
+            'root' => public_path('/upload/article/img'),
         ],
 
         'public' => [

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Middleware\VerifyCsrfToken;
-
+use App\Models\Role;
 
 class ArticleController extends Controller
 {
@@ -18,6 +18,7 @@ class ArticleController extends Controller
         if ($request -> header('X-Requested-With') =="XMLHttpRequest")
         {
 
+            $start = (int)$request->get('start', 0);
 
             $order = $request->get('order')[0];
             $column = $order['column'];
@@ -53,12 +54,12 @@ class ArticleController extends Controller
                 $query_builder -> where('title', 'like', "%{$title}%");
 
 
-
-
-            $data = $query_builder -> limit($len) ->orderBy($order, $dir) -> get() -> toArray();
-
-
             $total = $query_builder->count();
+
+
+            $data = $query_builder -> offset($start) -> limit($len) -> orderBy($order, $dir) -> get() -> toArray();
+
+
 
             $result = [
                 'draw' => $request -> get('draw'),
@@ -83,35 +84,40 @@ class ArticleController extends Controller
         {
             $this-> validate($request, [
                 'title' => 'required',
-                'description' => 'required'
+                'desc' => 'required'
             ], [
                 'title.required' => '请输入文章标题',
-                'description.required' => '请输入文章描述',
+                'desc.required' => '请输入文章描述',
             ]);
 
-            $pic = config('article_upload.article_default_cover');
+            $data = $request->only(['title', 'desc', 'cover', 'content']);
 
-            if ($request->hasFile('cover'))
-            {
-                $pic = '/upload/article_cover/' . $request -> file('cover') -> store('', 'article_cover');
-            }
+            if (empty($data['content']))
+                $data['content'] = '';
 
-
-            dd($pic);
+            Article::create($data);
             
-
+            return redirect(route('admin.article.index'))->with('success', '文章添加成功');
         }
     }
 
-    public function update() 
-    {
-        return 'update';
+
+
+    public function article_cover(Request $request) {
+        $pic = config('article_upload.article_default_cover');
+
+        if ($request->hasFile('cover'))
+        {
+            $pic = '/upload/article/cover/' . $request -> file('cover') -> store('', 'article_cover');
+        }
+
+        return $pic;
     }
 
     public function article_img(Request $request) {
         if ($request->hasFile('articlt_img'))
         {
-            $pic = '/upload/article_img/' . $request -> file('articlt_img') -> store('', 'article_img');
+            $pic = '/upload/article/img/' . $request -> file('articlt_img') -> store('', 'article_img');
             $result['success'] = true;
             // $result['msg'] = '已经保存到服务器';
             $result['file_path'] = $pic;
@@ -123,5 +129,31 @@ class ArticleController extends Controller
         }
     }
 
+    public function update(Request $request, $article) 
+    {
+        $article = Article::find((int)$article);
 
+        if($request -> isMethod('get'))
+            return view('admin.article.update', compact('article'));
+
+        if ($request -> isMethod('post'))
+        {
+            $this-> validate($request, [
+                'title' => 'required',
+                'desc' => 'required'
+            ], [
+                'title.required' => '请输入文章标题',
+                'desc.required' => '请输入文章描述',
+            ]);
+
+            $data = $request->only(['title', 'desc', 'cover', 'content']);
+
+            if (empty($data['content']))
+                $data['content'] = '';
+            
+            $article->update($data);
+            
+            return redirect(route('admin.article.update', $article))->with('success', '文章添加成功');
+        }
+    }
 }

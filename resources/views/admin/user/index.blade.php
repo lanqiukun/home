@@ -4,20 +4,8 @@
 <head>
     <meta charset="utf-8">
 
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui/css/H-ui.min.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/H-ui.admin.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/lib/Hui-iconfont/1.0.8/iconfont.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/pagination.css" />
-    <script src="/axios.min.js"></script>
-    <script src="/vue.js"></script>
+    @include('admin._css')
 
-    <style>
-        [v-cloak]{
-            display: none;
-        }
-    </style>
     <title>用户列表</title>
 </head>
 
@@ -44,7 +32,7 @@
                 <a href="{{ route('admin.user.trashed') }}" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe600;</i> 恢复用户</a>
 
             </span>
-            <span class="r">共有数据：<strong  v-cloak>@{{ total }}</strong> 条</span> </div>
+            <span class="r">共有数据：<strong v-cloak>@{{ total }}</strong> 条</span> </div>
         <div class="mt-20">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
                 <thead>
@@ -92,15 +80,15 @@
 
                             @if ( auth() -> user() -> id != $user-> id)
 
-                                @if ( in_array('admin.user.role', session('user_node')))
-                                    <a class="label label-primary radius" href="{{ route('admin.user.role', $user) }}" >
-                                        修改角色
-                                    </a>
-                                @endif
+                            @if ( in_array('admin.user.role', session('user_node')))
+                            <a class="label label-primary radius" href="{{ route('admin.user.role', $user) }}">
+                                修改角色
+                            </a>
+                            @endif
 
-                                <a class="label label-danger radius" href="{{ route('admin.user.delete', ['target' => $user->id]) }}" v-on:click.prevent="delete_target">
-                                    删除
-                                </a>
+                            <a class="label label-danger radius" href="{{ route('admin.user.delete', ['target' => $user->id]) }}" v-on:click.prevent="delete_target">
+                                删除
+                            </a>
                             @endif
 
                         </td>
@@ -111,104 +99,100 @@
         </div>
 
         <div id="pagination">
-            {{ $user_data -> links() }}
+        <el-pagination background layout="prev, pager, next" :total="total" @current-change="current_change" :current-page="current_page">
+        </el-pagination>
         </div>
     </div>
-    <!--_footer 作为公共模版分离出去-->
-    <script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="/admin/static/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="/admin/static/h-ui.admin/js/H-ui.admin.js"></script>
-    <!--/_footer 作为公共模版分离出去-->
+</body>
 
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-    <script type="text/javascript" src="/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="/admin/lib/laypage/1.2/laypage.js"></script>
+@include('admin._js')
 
 
-
-    <script>
-        var app = new Vue({
-            "el": "#app",
-            data: {
-                total: {{ $total }},
-                removed_items: [],
-                checked_items: []
+<script>
+    var app = new Vue({
+        "el": "#app",
+        data: {
+            total: {{ $total }},
+            current_page: {{ $current_page }}, 
+            removed_items: [],
+            checked_items: []
+        },
+        methods: {
+            current_change(e) {
+                window.location.href="/admin/user/index?page=" +e;
             },
-            methods: {
-                delete_target: function(e) {
-                    let url = e.target.href;
-                    // let url = "http://home.com/post"
+            delete_target(e) {
+                let url = e.target.href;
+                // let url = "http://home.com/post"
 
+                axios.delete(url, {
+
+                }).then((res) => {
+                    let code = res.data.code;
+                    let target = res.data.target;
+                    if (code == 0) {
+                        this.removed_items.push(target)
+                        this.total -= 1
+                    } else {
+                        alert(res.data.msg)
+                    }
+
+                }).catch(function(err) {
+                    console.log(err)
+                })
+            },
+            toggle(e) {
+                let items = document.querySelectorAll("input[name='targets[]']")
+
+                if (this.checked_items.length < items.length) {
+
+                    for (let i of items)
+                        if (!i.checked)
+                            i.click();
+
+                } else {
+
+                    for (let i of items)
+                        i.click();
+                }
+
+            },
+            delete_all(e) {
+                console.log(this.checked_items)
+                if (this.checked_items.length) {
+                    let url = "{{ route('admin.user.delete_all') }}"
                     axios.delete(url, {
-
-                    }).then((res) => {
-                        let code = res.data.code;
-                        let target = res.data.target;
-                        if (code == 0) {
-                            this.removed_items.push(target)
-                            this.total -= 1
-                        } else {
-                            alert(res.data.msg)
+                        params: {
+                            targets: this.checked_items
                         }
+                    }).then((res) => {
 
-                    }).catch(function(err) {
+                        for (var i of this.checked_items)
+                            this.removed_items.push(parseInt(i))
+
+                        this.total -= this.checked_items.length
+
+                        this.checked_items = []
+
+                    }).catch((err) => {
                         console.log(err)
                     })
-                },
-                toggle: function(e) {
-                    let items = document.querySelectorAll("input[name='targets[]']")
-
-                    if (this.checked_items.length < items.length) {
-
-                        for (let i of items)
-                            if (!i.checked) 
-                                i.click();
-
-                    } else {
-
-                        for (let i of items)
-                            i.click();
-                    }
-
-                },
-                delete_all(e) {
-                    console.log(this.checked_items)
-                    if (this.checked_items.length) {
-                        let url = "{{ route('admin.user.delete_all') }}"
-                        axios.delete(url, {
-                            params: {
-                                targets: this.checked_items
-                            }
-                        }).then((res) => {
-                            
-                            for (var i of this.checked_items)
-                                this.removed_items.push(parseInt(i))
-
-                            this.total -= this.checked_items.length
-
-                            this.checked_items = []
-
-                        }).catch((err) => {
-                            console.log(err)
-                        })
-                        
-                    }
 
                 }
 
+            }
 
-            },
-            watch: {
-                checked_items: function(n, o) {
-                    
-                }
-            },
 
-        })
-    </script>
+        },
+        watch: {
+            checked_items: function(n, o) {
 
-</body>
+            }
+        },
+
+    })
+</script>
+
+
 
 </html>

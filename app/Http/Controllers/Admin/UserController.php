@@ -16,14 +16,17 @@ class UserController extends BaseController
 {
     //
 
-    public function index()
+    public function index(Request $request)
     {
+        
+
+        $current_page = $request -> get('page') ?? 1;
 
         //->withTrashed()表示已经软删除的也要查询出来（如果模型中没有引入软删除就不用->withTrashed()）
         // $user_data = User::orderBy('id', 'desc')->withTrashed()->paginate($this->pagesize);
         $user_data = User::orderBy('id', 'desc')->paginate($this->pagesize);
 
-        return view('admin.user.index', ["total" => User::count()], compact('user_data'));
+        return view('admin.user.index', ["total" => User::count(), 'current_page' => $current_page, 'user_data' => $user_data]);
     }
 
     public function create(Request $request)
@@ -202,12 +205,13 @@ class UserController extends BaseController
     
             ]
             );
-    
+
             $current_password_hash = User::find(auth()->user()->id)->password;
             
             if (Hash::check($request->get('current_password'), $current_password_hash))
             {
                 User::find(auth()->id())->update(['password' =>  bcrypt($request->get('password'))]);
+
                 return redirect(route('admin.user.change_password')) -> with('success', '密码修改成功');
             }
             else

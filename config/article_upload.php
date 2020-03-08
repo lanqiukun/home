@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'article_default_cover' => '/upload/article_cover/default.jpg',
+    'article_default_cover' => '/upload/article/default_cover.jpg',
 ];

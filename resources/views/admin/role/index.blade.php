@@ -14,7 +14,7 @@
     <script src="/vue.js"></script>
 
     <style>
-        [v-cloak]{
+        [v-cloak] {
             display: none;
         }
     </style>
@@ -36,7 +36,7 @@
             <span class="l">
                 <a href="{{ route('admin.role.create') }}" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a>
             </span>
-            <span class="r">共有数据：<strong  v-cloak>@{{ total }}</strong> 条</span> </div>
+            <span class="r">共有数据：<strong v-cloak>@{{ total }}</strong> 条</span> </div>
         <div class="mt-20">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
                 <thead>
@@ -83,59 +83,48 @@
             {{ $role_data -> links() }}
         </div>
     </div>
-    <!--_footer 作为公共模版分离出去-->
-    <script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/admin/lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="/admin/static/h-ui/js/H-ui.min.js"></script>
-    <script type="text/javascript" src="/admin/static/h-ui.admin/js/H-ui.admin.js"></script>
-    <!--/_footer 作为公共模版分离出去-->
-
-    <!--请在下方写此页面业务相关的脚本-->
-    <script type="text/javascript" src="/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-    <script type="text/javascript" src="/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="/admin/lib/laypage/1.2/laypage.js"></script>
-
-
-
-    <script>
-        var app = new Vue({
-            "el": "#app",
-            data: {
-                total: {{ $total }},
-                removed_items: [],
-                checked_items: []
-            },
-            methods: {
-                delete_target: function(e) {
-                    let url = e.target.href;
-                    // let url = "http://home.com/post"
-
-                    axios.delete(url, {
-
-                    }).then((res) => {
-                        let code = res.data.code;
-                        let target = res.data.target;
-                        if (code == 0) {
-                            this.removed_items.push(target)
-                            this.total -= 1
-                        } else {
-                            alert(res.data.msg)
-                        }
-
-                    }).catch(function(err) {
-                        console.log(err)
-                    })
-                }
-            },
-            watch: {
-                checked_items: function(n, o) {
-                    
-                }
-            },
-
-        })
-    </script>
 
 </body>
+@include('admin._js')
+
+<script>
+    var app = new Vue({
+        "el": "#app",
+        data: {
+            total: '{{ $total }}',
+            removed_items: [],
+            checked_items: []
+        },
+        methods: {
+            delete_target: function(e) {
+                let url = e.target.href;
+                // let url = "http://home.com/post"
+
+                axios.delete(url, {
+
+                }).then((res) => {
+                    let code = res.data.code;
+                    let target = res.data.target;
+                    if (code == 0) {
+                        this.removed_items.push(target)
+                        this.total -= 1
+                    } else {
+                        alert(res.data.msg)
+                    }
+
+                }).catch(function(err) {
+                    console.log(err)
+                })
+            }
+        },
+        watch: {
+            checked_items: function(n, o) {
+
+            }
+        },
+
+    })
+</script>
+
 
 </html>

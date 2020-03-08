@@ -5,7 +5,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], fu
     //登录退出
     Route::get('login', 'LoginController@index')->name('login');
     Route::post('login', 'LoginController@login')->name('login');
-    Route::get('logout', 'LoginController@logout')->name('logout');
+    Route::post('logout', 'LoginController@logout')->name('logout');
 
 
 
@@ -77,10 +77,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], fu
             Route::get('index', 'ArticleController@index') -> name('index');
             Route::get('create', 'ArticleController@create') -> name('create');
             Route::post('create', 'ArticleController@create') -> name('create');    
-            Route::get('update', 'ArticleController@update') -> name('update');
-            Route::post('update', 'ArticleController@update') -> name('update');
+            Route::get('update/{target}', 'ArticleController@update') -> name('update');
+            Route::post('update/{target}', 'ArticleController@update') -> name('update');
             Route::delete('delete/{target}', 'ArticleController@delete') -> name('delete');
 
+            Route::post('article_cover', 'ArticleController@article_cover')->name('article_cover');
             Route::post('article_img', 'ArticleController@article_img')->name('article_img');
         });
 
