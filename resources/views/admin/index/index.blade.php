@@ -30,9 +30,9 @@
                 </nav>
                 <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                     <ul class="cl" id="ul_menu">
-                        <li>{{ auth()->user()->truename }}</li>
+                        <li>{{ auth() ->guard('myguard') ->user()->truename }}</li>
                         <li class="dropDown dropDown_hover">
-                            <a href="#" class="dropDown_A">{{ auth()->user()->username }} <i class="Hui-iconfont">&#xe6d5;</i></a>
+                            <a href="#" class="dropDown_A">{{ auth() ->guard('myguard') ->user()->username }} <i class="Hui-iconfont">&#xe6d5;</i></a>
                             <ul class="dropDown-menu menu radius box-shadow">
                                 <li><a href="{{ route('admin.user.update') }}" target="_blank">个人信息</a></li>
 
@@ -110,7 +110,7 @@
 
 </body>
 
-@include('admin._js')
+@include('admin._old_js')
 <script>
     var app = new Vue({
         el: "#ul_menu",

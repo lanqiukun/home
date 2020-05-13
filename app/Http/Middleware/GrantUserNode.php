@@ -35,6 +35,8 @@ class GrantUserNode
             $valid_node = Node::all();
         }
 
+        // $current_route = \Route::current()->getActionName();
+        
         $current_route = $request->route()->getName();
 
         $nodes = $valid_node -> pluck('route', 'id') ->toArray();

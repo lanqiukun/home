@@ -17,7 +17,7 @@ class CheckAdminLogin
     {
 
 
-        if (!auth()->check())
+        if (!auth() -> guard('myguard') ->check())
         {
             session(['attempt_to' => $request->route()->getName()]);
             return redirect(route('admin.login'))->withErrors('请登录');

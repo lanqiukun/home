@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/doubi', function (Request $request) {
+    return 'doubi';
 });
 
 // Route::post('admin/article/article_img', 'ArticleController@article_img')->name('article_img');

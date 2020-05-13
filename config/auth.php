@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'myguard' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
     ],
 
     /*

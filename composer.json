@@ -11,9 +11,11 @@
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
         "gregwar/captcha": "^1.1",
+        "jacobcyl/ali-oss-storage": "dev-master",
         "jaeger/querylist": "^4.1",
         "laravel/framework": "^6.2",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

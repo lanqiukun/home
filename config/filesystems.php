@@ -58,12 +58,36 @@ return [
             'root' => public_path('/upload/article/img'),
         ],
 
+        'houseattr_icon' => [
+            'driver' => 'local',
+            'root' => public_path('/upload/houseattr/icon'),
+        ],
+
+        'houseowner_pic' => [
+            'driver' => 'local',
+            'root' => public_path('/upload/houseowner/pic'),
+        ],
+
+        'house_pic' => [
+            'driver' => 'local',
+            'root' => public_path('/upload/house/pic'),
+        ],
+
+        'alioss' => [
+            'driver'        => 'oss',
+            'access_id'     => 'LTAI4FoJXe1v9PHn1t3KBoTX',
+            'access_key'    => 'jhbWTDsATqWumQpmZgzka172C8PKpZ',
+            'bucket'        => 'bucket20200319',
+            'endpoint'      => 'http://oss-cn-shenzhen.aliyuncs.com',
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
+
 
         's3' => [
             'driver' => 's3',

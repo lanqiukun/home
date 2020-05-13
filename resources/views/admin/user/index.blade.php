@@ -33,6 +33,7 @@
 
             </span>
             <span class="r">共有数据：<strong v-cloak>@{{ total }}</strong> 条</span> </div>
+            <div>当前页面：{{ $current_page }}</div>
         <div class="mt-20">
             <table class="table table-border table-bordered table-hover table-bg table-sort">
                 <thead>
@@ -54,9 +55,11 @@
                 </thead>
                 <tbody>
                     @foreach($user_data as $user)
+                    
                     <tr class="text-c" v-if="!removed_items.includes({{$user->id}})">
                         <td>
-                            @if ( auth() -> user() -> id != $user-> id)
+                            
+                            @if ( auth() -> guard('myguard') -> user() -> id != $user-> id)
                             <input type="checkbox" value="{{ $user->id }}" name="targets[]" v-model="checked_items">
                             @endif
                         </td>
@@ -68,7 +71,7 @@
                         <td>{{ $user->sex }}</td>
                         <td>{{ $user->phone }}</td>
                         <td>{{ $user->email }} </td>
-                        <td>{{ $user->created_at }}</td>
+                        <td>{{ $user->created_at->diffForHumans() }}</td>
                         <td class="td-status">
                             @if ($user -> deleted_at)
                             <span class="label label-danger radius">已删除</span>
@@ -78,7 +81,7 @@
                         </td>
                         <td class="td-manage">
 
-                            @if ( auth() -> user() -> id != $user-> id)
+                            @if ( auth()  -> guard('myguard')-> user() -> id != $user-> id)
 
                             @if ( in_array('admin.user.role', session('user_node')))
                             <a class="label label-primary radius" href="{{ route('admin.user.role', $user) }}">

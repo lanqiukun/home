@@ -17,6 +17,18 @@ class Base extends Model
         
     ];
 
+    public function getSexAttribute($value)
+    {
+        if ($value === null)
+            return '未设置';
+        else if ($value == 0)
+            return '女士';
+        else if ($value == 1)
+            return '先生';
+        else
+            return '其他';
+    }
+
     public function tree_level(array $data, int $pid = 0, string $html = '____', int $level = 0) {
 
         static $arr = [];

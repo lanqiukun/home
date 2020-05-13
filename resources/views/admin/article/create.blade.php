@@ -62,7 +62,7 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-3">封面：</label>
                 <div class="formControls col-xs-8 col-sm-6">
-                    <img src="{{ config('article_upload.article_default_cover') }}" id="default_cover" class="radius" alt="响应式图片" style="max-width: 300px">
+                    <img src="{{ config('admin_upload.article_default_cover') }}" id="default_cover" class="radius" alt="响应式图片" style="max-width: 300px">
                 </div>
             </div>
 
@@ -71,7 +71,7 @@
                 <div class="formControls col-xs-8 col-sm-6">
                     <div id="picker">更换文章封面</div>
 
-                    <input type="hidden" value="{{ config('article_upload.article_default_cover') }}" id="cover" name="cover">
+                    <input type="hidden" value="{{ config('admin_upload.article_default_cover') }}" id="cover" name="cover">
 
                 </div>
             </div>
@@ -87,22 +87,17 @@
 
             <div class="row cl">
                 <div class="col-xs-8 col-sm-6 col-xs-offset-4 col-sm-offset-3">
-                    <input class="btn btn-primary radius" type="submit" onclick="submit_form(event)" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                    <input class="btn btn-primary radius" type="submit"  value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
                 </div>
             </div>
         </form>
     </article>
 
 </body>
-@include('admin.js')
+@include('admin._js')
 
 <script type="text/javascript">
-    function submit_form() {
-        event.preventDefault();
 
-        document.querySelector('form').submit();
-
-    }
 
     $(document).ready(function() {
         var editor = new Simditor({

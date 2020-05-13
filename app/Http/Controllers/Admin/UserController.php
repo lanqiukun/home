@@ -10,17 +10,17 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends BaseController
 {
     //
-
     public function index(Request $request)
     {
         
+        $current_page = $request -> get('page', 1);
 
-        $current_page = $request -> get('page') ?? 1;
+        // dd($current_page);
 
         //->withTrashed()表示已经软删除的也要查询出来（如果模型中没有引入软删除就不用->withTrashed()）
         // $user_data = User::orderBy('id', 'desc')->withTrashed()->paginate($this->pagesize);

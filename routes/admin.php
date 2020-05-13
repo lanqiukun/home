@@ -77,8 +77,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], fu
             Route::get('index', 'ArticleController@index') -> name('index');
             Route::get('create', 'ArticleController@create') -> name('create');
             Route::post('create', 'ArticleController@create') -> name('create');    
-            Route::get('update/{target}', 'ArticleController@update') -> name('update');
-            Route::post('update/{target}', 'ArticleController@update') -> name('update');
+            Route::get('update/{article}', 'ArticleController@update') -> name('update');
+            Route::post('update/{article}', 'ArticleController@update') -> name('update');
             Route::delete('delete/{target}', 'ArticleController@delete') -> name('delete');
 
             Route::post('article_cover', 'ArticleController@article_cover')->name('article_cover');
@@ -86,15 +86,86 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], fu
         });
 
 
+        //房源属性相关
+
+        Route::group(['prefix' =>'houseattr', 'as' => 'houseattr.'], function() {
+            Route::get('index', 'HouseAttrController@index') -> name('index');
+            Route::get('create', 'HouseAttrController@create') -> name('create');
+            Route::post('create', 'HouseAttrController@create') -> name('create');
+            Route::get('update/{houseattr}', 'HouseAttrController@update') -> name('update');
+            Route::post('update/{houseattr}', 'HouseAttrController@update') -> name('update');
+            Route::delete('delete/{houseattr}', 'HouseAttrController@delete') -> name('delete');
+
+
+            Route::post('houseattr_icon', 'HouseAttrController@houseattr_icon')->name('houseattr_icon');
+            Route::get('attrs/{attrpid}', 'HouseAttrController@attrs') -> name('attrs');
+
+        });
+
+
+        //房东相关
+        Route::group(['prefix' =>'houseowner', 'as' => 'houseowner.'], function() {
+            Route::get('index', 'houseownerController@index') -> name('index');
+            Route::get('create', 'houseownerController@create') -> name('create');
+            Route::post('create', 'houseownerController@create') -> name('create');
+            Route::get('update/{houseowner}', 'houseownerController@update') -> name('update');
+            Route::post('update/{houseowner}', 'houseownerController@update') -> name('update');
+            Route::delete('delete/{houseowner}', 'houseownerController@delete') -> name('delete');
+
+
+            Route::post('houseowner_icon', 'houseownerController@houseowner_icon')->name('houseowner_icon');
+
+
+            Route::get('trashed', 'houseownerController@trashed') -> name('trashed');
+            Route::post('restore/{houseowner}', 'houseownerController@restore') -> name('restore');
+
+            Route::post('houseowner_pic', 'houseownerController@houseowner_pic')->name('houseowner_pic');
+
+
+            Route::get('excel', 'houseownerController@excel') -> name('excel');
+
+            Route::get('search', 'houseownerController@search') -> name('search');
+        });
+
+
+        //房源相关
+        Route::group(['prefix' =>'house', 'as' => 'house.'], function() {
+            Route::get('index', 'houseController@index') -> name('index');
+            Route::get('create', 'houseController@create') -> name('create');
+            Route::post('create', 'houseController@create') -> name('create');
+            Route::get('update/{house}', 'houseController@update') -> name('update');
+            Route::post('update/{house}', 'houseController@update') -> name('update');
+            Route::delete('delete/{house}', 'houseController@delete') -> name('delete');
+
+
+            Route::post('house_icon', 'houseController@house_icon')->name('house_icon');
+
+
+            Route::get('trashed', 'houseController@trashed') -> name('trashed');
+            Route::post('restore/{house}', 'houseController@restore') -> name('restore');
+
+            Route::post('house_pic', 'houseController@house_pic')->name('house_pic');
+            Route::post('house_cover', 'houseController@house_cover')->name('house_cover');
+
+
+            Route::get('excel', 'houseController@excel') -> name('excel');
+
+            Route::post('pic', 'houseController@pic') -> name('pic');
+            Route::delete('pic', 'houseController@pic') -> name('pic');
+            
+        });
+
+        
 
     });
 
 
 
 
-
+    Route::get('regiondata', 'RegionController@regiondata') -> name('regiondata');
 
 
 });
 
 
+// Route::resource('test', 'TestController');

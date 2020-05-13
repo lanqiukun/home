@@ -39,7 +39,7 @@ class ArticleController extends Controller
                 $datemax = date('Y-m-d H:i:s', strtotime($datemax . " 23:59:59"));
 
 
-            $query_builder = Article::where([]);
+            $query_builder = Article::query();
 
             if (!empty($datemin) && !empty($datemax))
                 $query_builder -> whereBetween('created_at', [$datemin, $datemax]);
@@ -104,7 +104,7 @@ class ArticleController extends Controller
 
 
     public function article_cover(Request $request) {
-        $pic = config('article_upload.article_default_cover');
+        $pic = config('admin_upload.article_default_cover');
 
         if ($request->hasFile('cover'))
         {
@@ -129,9 +129,9 @@ class ArticleController extends Controller
         }
     }
 
-    public function update(Request $request, $article) 
+    public function update(Request $request, Article $article) 
     {
-        $article = Article::find((int)$article);
+        // $article = Article::find((int)$article);
 
         if($request -> isMethod('get'))
             return view('admin.article.update', compact('article'));

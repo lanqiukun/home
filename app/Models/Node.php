@@ -22,10 +22,10 @@ class Node extends Base
             return '<span class="label label-warning radius">否</span>';
     }
 
-    public function getAllList() {
+    public static function getAllList() {
         $data = self::get() -> toArray();
         
-        return $this->tree_level($data);
+        return (new Node) -> tree_level($data);
     }
 
     public function getAllCreatableList() {

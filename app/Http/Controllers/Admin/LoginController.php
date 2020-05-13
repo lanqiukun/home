@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use SebastianBergmann\Environment\Console;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class LoginController extends Controller
 {
     //
+    use ThrottlesLogins;
+
     public function index() {
-        if (auth() -> check())
+        // auth() ->guard('myguard') ->login(User::find(1));
+        if (auth()  -> guard('myguard') -> check())
             return redirect(route('admin.index'));
         return view('admin.login.login');
     } 
@@ -28,8 +33,8 @@ class LoginController extends Controller
             'password.required' => '请填写密码'
         ]);
             
-        
-        $logged =  auth() -> attempt($post_data);
+
+        $logged =  auth()  -> guard('myguard')-> attempt($post_data);
 
         if ($logged) {
 
@@ -55,7 +60,7 @@ class LoginController extends Controller
 
 
         
-        auth() -> logout();
+        auth()  -> guard('myguard')-> logout();
         
         return session() -> flash('success', '退出成功！');
     }

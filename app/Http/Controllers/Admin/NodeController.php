@@ -13,7 +13,7 @@ class NodeController extends Controller
     {
         //
 
-        $node = (new Node) -> getAllList();
+        $node = Node::getAllList();
 
 
 

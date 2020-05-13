@@ -12,16 +12,31 @@
 */
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderShipped;
+use App\Models\Region;
+
 
 Route::get('/', function() {
     return view('test');
 });
 
+Route::get('/db', function() {
+    return DB::select('select connection_id()');
+});
+
+Route::get('/nw', function() {
+    echo 2;
+});
+
+Route::get('/mail', function() {
+    Mail::send(new OrderShipped);
+    return "the email has been send!";
+});
+
+
 Route::get('/b', function() {
-    if (request() -> header('X-Requested-With') =="XMLHttpRequest")
-        return 'is ajax';
-    else
-        return 'is not ajax';
+    echo file_get_contents('https://lowb.top');
 });
 
 Route::get('/collect', 'CollectorController@index') ->name('collect');

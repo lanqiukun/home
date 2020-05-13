@@ -11,7 +11,6 @@ class IndexController extends Controller
 
     //
     public function index(Request $request) {
-
         $data = (new Node()) -> treeData(array_keys(session('user_node')));
 
 
