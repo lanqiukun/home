@@ -75,8 +75,8 @@ return [
 
         'alioss' => [
             'driver'        => 'oss',
-            'access_id'     => 'LTAI4FoJXe1v9PHn1t3KBoTX',
-            'access_key'    => 'jhbWTDsATqWumQpmZgzka172C8PKpZ',
+            'access_id'     => '',
+            'access_key'    => '',
             'bucket'        => 'bucket20200319',
             'endpoint'      => 'http://oss-cn-shenzhen.aliyuncs.com',
         ],
